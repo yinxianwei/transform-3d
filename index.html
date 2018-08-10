@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.bootcss.com/element-ui/2.4.0/theme-chalk/index.css"
+          rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 100px;
+        }
+
+        #div {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #E91E63;
+            left: 350px;
+            top: 150px;
+        }
+
+        #stage {
+            position: relative;
+            transform-style: preserve-3d;
+            margin-bottom: 100px;
+            width: 800px;
+            height: 400px;
+            perspective: 400px;
+            border: 1px solid black;
+        }
+
+        .el-form {
+            max-width: 800px;
+        }
+
+        #center {
+            position: absolute;
+            width: 800px;
+            height: 400px;
+            background-color: #000000ba;
+            transform: translateZ(-400px);
+            background: hsla(120, 100%, 50%, 0.7);
+        }
+
+        .mm {
+            position: absolute;
+            width: 800px;
+            height: 400px;
+            border: 1px solid black;
+        }
+
+        #top {
+            transform: rotateX(-90deg);
+            transform-origin: 0% 0%;
+            background: hsla(240, 100%, 50%, 0.7);
+        }
+
+        #right {
+            right: 0;
+            width: 400px;
+            transform: rotateY(-90deg);
+            transform-origin: 100% 0%;
+            background: hsla( 60, 100%, 50%, 0.7);
+        }
+
+        #bottom {
+            transform: rotateX(90deg);
+            transform-origin: 0% 100%;
+            background: hsla(300, 100%, 50%, 0.7);
+        }
+
+        #left {
+            width: 400px;
+            transform: rotateY(90deg);
+            transform-origin: 0% 100%;
+            background: hsla(180, 100%, 50%, 0.7);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <div id="stage"
+             :style="stageStyle">
+            <div :style="style"
+                 id="div">
+            </div>
+            <div id="center"></div>
+            <div class="mm"
+                 id="top"></div>
+            <div class="mm"
+                 id="right"></div>
+            <div class="mm"
+                 id="bottom"></div>
+            <div class="mm"
+                 id="left"></div>
+        </div>
+        <el-form label-width="100px">
+            <el-form-item label="style：">
+                <div style="height: 50px;">
+                    {{style}}
+                </div>
+            </el-form-item>
+            <el-form-item label="rotateX：">
+                <el-slider max="180"
+                           :min="-180"
+                           v-model="rotateX"></el-slider>
+            </el-form-item>
+            <el-form-item label="rotateY：">
+                <el-slider max="180"
+                           :min="-180"
+                           v-model="rotateY"></el-slider>
+            </el-form-item>
+            <el-form-item label="rotateZ：">
+                <el-slider max="180"
+                           :min="-180"
+                           v-model="rotateZ"></el-slider>
+            </el-form-item>
+            <el-form-item label="skewX：">
+                <el-slider max="180"
+                           :min="-180"
+                           v-model="skew.X"></el-slider>
+            </el-form-item>
+            <el-form-item label="skewY：">
+                <el-slider max="180"
+                           :min="-180"
+                           v-model="skew.Y"></el-slider>
+            </el-form-item>
+            <el-form-item label="translateX：">
+                <el-slider max="350"
+                           :min="-350"
+                           v-model="translate.X"></el-slider>
+            </el-form-item>
+            <el-form-item label="translateY：">
+                <el-slider max="150"
+                           :min="-150"
+                           v-model="translate.Y"></el-slider>
+            </el-form-item>
+            <el-form-item label="translateZ：">
+                <el-slider max="150"
+                           :min="-150"
+                           v-model="translate.Z"></el-slider>
+            </el-form-item>
+            <el-form-item label="perspective-origin X：">
+                <el-slider max="200"
+                           :min="-100"
+                           v-model="perspectiveOrigin.X"></el-slider>
+            </el-form-item>
+            <el-form-item label="perspective-origin Y：">
+                <el-slider max="200"
+                           :min="-100"
+                           v-model="perspectiveOrigin.Y"></el-slider>
+            </el-form-item>
+        </el-form>
+    </div>
+</body>
+
+<!-- rotate -->
+<!-- skew -->
+
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.4.0/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        computed: {
+            stageStyle: function() {
+                return {
+                    'perspective-origin': `${this.perspectiveOrigin.X}% ${this.perspectiveOrigin.Y}%`
+                }
+            },
+            style: function() {
+                return {
+                    transform: `rotateX(${this.rotateX}deg) rotateY(${this.rotateY}deg) rotateZ(${this.rotateZ}deg) skew(${this.skew.X}deg, ${this.skew.Y}deg) translate3d(${this.translate.X}px, ${this.translate.Y}px, ${this.translate.Z}px)`
+                }
+            }
+        },
+        data: function() {
+            return {
+                rotateX: 0,
+                rotateY: 0,
+                rotateZ: 0,
+                skew: {
+                    X: 0,
+                    Y: 0
+                },
+                translate: {
+                    X: 0,
+                    Y: 0,
+                    Z: 0
+                },
+                perspectiveOrigin: {
+                    X: 50,
+                    Y: 50
+                }
+            }
+        },
+        methods: {
+            click: function() {}
+        },
+        mounted: function() {}
+    })
+</script>
+
+</html>
